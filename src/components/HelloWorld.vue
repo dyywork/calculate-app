@@ -52,30 +52,38 @@ const generateSubtractionQuestionWithMinuendInRange = (minuendMin = 10, minuendM
     return `${minuend} - ${subtrahend} = `;
 }
 const list = ref([])
+let page = ref(1)
+
 const handleSubmit = () => {
-  for (let i = 0; i < 120; i++) {
+  let num = page.value * 120
+
+  for (let i = 0; i < num; i++) {
     list.value.push(increment())
   }
 }
 
 const handelTwo = () => {
-  for (let i = 0; i < 120; i++) {
+  let num = page.value * 120
+  for (let i = 0; i < num; i++) {
     if (Math.floor(Math.random() * 10) + 1 >5) {
       list.value.push(generateAdditionQuestionInRange())
     } else{
       list.value.push(generateSubtractionQuestionWithMinuendInRange())
     }
   }
-  console.log(list.value);
 }
 
 </script>
 
 <template>
-  <el-button @click="handleSubmit">生成10以内的加减法</el-button>
+  <el-row type="flex">
+    <el-button @click="handleSubmit">生成10以内的加减法</el-button>
   <el-button @click="handelTwo">生成20以内的加减法</el-button>
+  页数： <el-input-number v-model="page" />
   <el-button @click="list = []">清空</el-button>
   <el-button v-print="'print-box'">打印</el-button>
+  </el-row>
+  
   <el-row id="print-box">
     <el-col :span="6" style="margin-bottom: 10px;" v-for="item in list">{{ item }}</el-col>
   </el-row>
