@@ -1,29 +1,19 @@
-# 选择你要使用的 docker 镜像
-image: node:18-buster
-
+image: node:16.5.0
 pages:
-  # 每当 push 到 main 分支时触发部署
-  only:
-    - main
-
-  # 缓存 node_modules
+  stage: deploy
   cache:
     key:
       files:
-        - pnpm-lock.yaml
+        - package-lock.json
+      prefix: npm
     paths:
-      - .pnpm-store
-
-  # 安装 pnpm
-  before_script:
-    - npm install -g pnpm
-    - pnpm config set store-dir .pnpm-store
-
-  # 安装依赖并运行构建脚本
+      - node_modules/
   script:
-    - pnpm install
-    - pnpm build --dest public
-
+    - npm install
+    - npm run build
+    - cp -a dist/. public/
   artifacts:
     paths:
       - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
