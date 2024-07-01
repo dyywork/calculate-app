@@ -60,6 +60,9 @@ const handleSubmit = () => {
   for (let i = 0; i < num; i++) {
     list.value.push(increment())
   }
+
+  // 去重
+  list.value = [...new Set(list.value)]
 }
 
 const handelTwo = () => {
@@ -71,6 +74,8 @@ const handelTwo = () => {
       list.value.push(generateSubtractionQuestionWithMinuendInRange())
     }
   }
+  // 去重
+  list.value = [...new Set(list.value)]
 }
 
 </script>
